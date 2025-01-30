@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数字排序和排列</title>
+    <meta charset="UTF-8">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .number-input {
+            margin: 5px;
+            width: 50px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .result-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result-title {
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>请输入10个数字</h2>
+        <div id="inputs">
+            <input type="number" class="number-input" placeholder="数字1">
+            <input type="number" class="number-input" placeholder="数字2">
+            <input type="number" class="number-input" placeholder="数字3">
+            <input type="number" class="number-input" placeholder="数字4">
+            <input type="number" class="number-input" placeholder="数字5">
+            <input type="number" class="number-input" placeholder="数字6">
+            <input type="number" class="number-input" placeholder="数字7">
+            <input type="number" class="number-input" placeholder="数字8">
+            <input type="number" class="number-input" placeholder="数字9">
+            <input type="number" class="number-input" placeholder="数字10">
+        </div>
+        <button onclick="submitNumbers()">提交</button>
+        <div id="error" style="color: red; display: none;"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function submitNumbers() {
+            const inputs = document.getElementsByClassName('number-input');
+            const numbers = [];
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+            
+            for (let input of inputs) {
+                if (input.value === '') {
+                    error.style.display = 'block';
+                    error.textContent = '请填写所有数字！';
+                    return;
+                }
+                numbers.push(Number(input.value));
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/sort_and_permute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ numbers: numbers })
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    error.style.display = 'block';
+                    error.textContent = data.error;
+                    return;
+                }
+
+                // 构建排序结果表格
+                let sortedHtml = `
+                    <div class="result-section">
+                        <h3 class="result-title">排序结果</h3>
+                        <table>
+                            <tr>
+                                <th>位置</th>
+                                <th>数值</th>
+                            </tr>
+                `;
+                
+                data.sorted_numbers.forEach((num, index) => {
+                    sortedHtml += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${num}</td>
+                        </tr>
+                    `;
+                });
+                sortedHtml += '</table></div>';
+
+                // 构建排列结果表格
+                let permsHtml = `
+                    <div class="result-section">
+                        <h3 class="result-title">排列组合结果（前10个）</h3>
+                        <table>
+                            <tr>
+                                <th>序号</th>
+                                <th>排列组合</th>
+                            </tr>
+                `;
+                
+                data.permutations.slice(0, 10).forEach((perm, index) => {
+                    permsHtml += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${perm.join(', ')}</td>
+                        </tr>
+                    `;
+                });
+                permsHtml += '</table></div>';
+
+                result.innerHTML = sortedHtml + permsHtml;
+                error.style.display = 'none';
+            } catch (err) {
+                error.style.display = 'block';
+                error.textContent = '提交失败，请重试';
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
