@@ -4,7 +4,27 @@
 笔记：
 
 **API是连接前端后端的通道，全称Application Programming Interface
-**但是API是怎么运行的尚不清楚，我认为目前最好的方案应该是找到一个有前端后端的简单app，并去查看API是怎么工作的
+
+API 的运行流程
+前端发送请求（HTTP Request）
+
+例如，前端调用 POST /upload_video 上传视频。
+
+后端接收请求，处理逻辑
+
+API 解析请求数据（视频文件、用户信息等）。
+可能需要调用数据库或AI模型。
+后端返回数据（HTTP Response）
+
+API 返回 JSON 格式的结果，例如：
+
+{
+    "status": "success",
+    "video_id": "12345",
+    "message": "视频已上传成功"
+}
+
+！！但是API是怎么运行的尚不清楚，我认为目前最好的方案应该是找到一个有前端后端的简单app，并去查看API是怎么工作的
 
 
 
