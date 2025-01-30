@@ -1,0 +1,15 @@
+@app.route('/upload_video', methods=['POST'])
+def upload_video():
+    if 'video' not in request.files:
+        return jsonify({"error": "No video file provided"}), 400
+
+    video = request.files['video']
+    filename = os.path.join('uploads', video.filename)
+    video.save(filename)
+
+    # 存储到数据库
+    new_video = Video(filename=filename)
+    db.session.add(new_video)
+    db.session.commit()
+
+    return jsonify({"status": "success", "video_id": new_video.id})
