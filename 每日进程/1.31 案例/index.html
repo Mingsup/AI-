@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>猫咪检测</title>
+    <meta charset="UTF-8">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #4CAF50;
+        }
+        #preview {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>猫咪检测系统</h2>
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            <p>点击或拖拽图片到此处上传</p>
+            <input type="file" id="fileInput" style="display: none" accept="image/*" onchange="handleFileSelect(event)">
+        </div>
+        <div id="preview-container">
+            <img id="preview" style="display: none">
+        </div>
+        <button onclick="detectCat()" style="display: none" id="detectButton">检测猫咪</button>
+        <div id="error"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let currentFile = null;
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            currentFile = file;
+            const preview = document.getElementById('preview');
+            const detectButton = document.getElementById('detectButton');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                detectButton.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+
+        async function detectCat() {
+            if (!currentFile) {
+                document.getElementById('error').textContent = '请先上传图片';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', currentFile);
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/detect_cat', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    document.getElementById('error').textContent = data.error;
+                    return;
+                }
+
+                // 显示处理后的图片
+                const result = document.getElementById('result');
+                const img = new Image();
+                img.src = 'data:image/jpeg;base64,' + btoa(data.processed_image);
+                img.style.maxWidth = '100%';
+                
+                result.innerHTML = '';
+                result.appendChild(img);
+                
+                document.getElementById('error').textContent = '';
+            } catch (err) {
+                document.getElementById('error').textContent = '检测失败，请重试';
+                console.error(err);
+            }
+        }
+
+        // 添加拖拽上传功能
+        const uploadArea = document.querySelector('.upload-area');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4CAF50';
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+            
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const fileInput = document.getElementById('fileInput');
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect({target: {files: [file]}});
+            }
+        });
+    </script>
+</body>
+</html>
