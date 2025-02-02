@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>羽毛球视频分析</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #666;
+        }
+        #videoPreview {
+            max-width: 100%;
+            margin: 20px 0;
+            display: none;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin: 10px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>羽毛球视频分析</h1>
+        
+        <div class="upload-area" onclick="document.getElementById('videoInput').click()">
+            <p>点击或拖拽上传视频文件</p>
+            <input type="file" id="videoInput" accept="video/*" style="display: none" onchange="handleVideoUpload(event)">
+        </div>
+
+        <video id="videoPreview" controls></video>
+        
+        <div>
+            <button id="analyzeBtn" onclick="analyzeVideo()" disabled>分析视频</button>
+            <button onclick="resetVideo()">重新选择</button>
+        </div>
+
+        <div id="result">
+            <div id="hitCount"></div>
+            <div id="hitFrames" style="margin-top: 20px;">
+                <h3>击球瞬间截图：</h3>
+                <div id="hitImages" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let videoFile = null;
+
+        function handleVideoUpload(event) {
+            videoFile = event.target.files[0];
+            if (videoFile) {
+                const video = document.getElementById('videoPreview');
+                video.src = URL.createObjectURL(videoFile);
+                video.style.display = 'block';
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+
+        async function analyzeVideo() {
+            if (!videoFile) {
+                alert('请先选择视频文件');
+                return;
+            }
+
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = '分析中...';
+
+            const formData = new FormData();
+            formData.append('video', videoFile);
+
+            try {
+                const response = await fetch('http://localhost:8000/analyze-badminton', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('分析失败');
+                }
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('result');
+                const hitCountDiv = document.getElementById('hitCount');
+                const hitImagesDiv = document.getElementById('hitImages');
+                
+                resultDiv.style.display = 'block';
+                hitCountDiv.innerHTML = `<h3>分析结果：检测到 ${result.hits_count} 次击球</h3>`;
+                
+                // 显示击球瞬间的截图
+                hitImagesDiv.innerHTML = result.hit_frames.map(hit => `
+                    <div style="text-align: center;">
+                        <img src="http://localhost:8000${hit.image_path}" 
+                             alt="击球 ${hit.hit_number}" 
+                             style="max-width: 200px; border: 1px solid #ccc;">
+                        <p>第 ${hit.hit_number} 次击球</p>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('分析出错:', error);
+                alert('视频分析失败，请重试');
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = '分析视频';
+            }
+        }
+
+        function resetVideo() {
+            document.getElementById('videoInput').value = '';
+            document.getElementById('videoPreview').style.display = 'none';
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('result').style.display = 'none';
+            videoFile = null;
+        }
+
+        // 添加拖拽上传功能
+        const uploadArea = document.querySelector('.upload-area');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#666';
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#ccc';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type.startsWith('video/')) {
+                document.getElementById('videoInput').files = files;
+                handleVideoUpload({ target: { files } });
+            }
+        });
+    </script>
+</body>
+</html>
