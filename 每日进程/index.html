@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>猫咪检测器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .upload-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+        }
+        #preview {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>猫咪检测器</h1>
+    <div class="upload-container">
+        <input type="file" id="imageInput" accept="image/*">
+        <button onclick="detectCats()">开始检测</button>
+    </div>
+    <div class="loading" id="loading">
+        正在处理中...
+    </div>
+    <div id="result"></div>
+    <img id="preview">
+
+    <script>
+        async function detectCats() {
+            const input = document.getElementById('imageInput');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const preview = document.getElementById('preview');
+            
+            if (!input.files || !input.files[0]) {
+                alert('请先选择图片');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', input.files[0]);
+
+            try {
+                loading.style.display = 'block';
+                result.innerHTML = '';
+                preview.src = '';
+
+                const response = await fetch('http://localhost:5000/detect', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // 显示结果图片
+                preview.src = 'data:image/jpeg;base64,' + data.image;
+                
+                // 显示检测结果
+                result.innerHTML = `
+                    <h3>检测结果</h3>
+                    <p>检测到 ${data.cat_count} 只猫</p>
+                `;
+            } catch (error) {
+                result.innerHTML = `<p style="color: red;">错误: ${error.message}</p>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
