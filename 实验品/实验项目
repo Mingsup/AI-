@@ -3,3 +3,39 @@
 图片——猫 提取 1.31--
 编写一个API能够从前端接受一张带有猫咪的照片，在后端进行分析并提取出来猫咪在图片上的位置，用红色方框指明猫咪的位置
 
+
+
+(2) MediaPipe Pose (Google)
+简介：Google 开发的高效 HPE 模型，支持 33 个关键点检测，适用于移动端和嵌入式设备。
+优点：
+速度快（轻量级）
+可用于实时应用
+适用于 Python、Android、iOS
+缺点：
+适用于单人检测（多人检测效果一般）
+GitHub: https://github.com/google/mediapipe
+(3) YOLO-Pose (基于 YOLO 的姿态估计)
+简介：YOLOv8 近期扩展了 Pose 估计功能，可进行人体关键点检测。
+优点：
+速度快（基于 YOLO 的高效推理）
+适用于视频流分析
+适合羽毛球应用场景（可结合目标检测）
+缺点：
+关键点较少（相比 OpenPose）
+可能对遮挡物鲁棒性较差
+GitHub: https://github.com/ultralytics/ultralytics
+(4) HRNet (High-Resolution Network)
+简介：高精度的姿态估计模型，常用于高质量关键点检测任务。
+优点：
+关键点精度较高
+适用于姿态矫正
+缺点：
+推理速度较慢
+需要较大计算资源（适合高精度任务）
+GitHub: https://github.com/leoxiaobin/deep-high-resolution-net.pytorch
+2. 商业级解决方案
+如果你的项目需要更稳定或更完整的解决方案，可以考虑商业化产品：
+
+Vicon：基于光学动作捕捉系统，主要用于电影、游戏、体育分析。
+OptiTrack：类似 Vicon 的专业级动作捕捉系统，适用于高精度体育分析。
+MoveNet (TensorFlow Lite)：Google 开发的移动端优化模型，适用于智能设备实时推理。
