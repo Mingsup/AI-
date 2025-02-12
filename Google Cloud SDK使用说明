@@ -1,0 +1,130 @@
+
+### **2. 登录 Google Cloud**
+
+gcloud auth login
+
+此命令会打开浏览器，让你进行身份验证并允许 GC SDK 访问你的 GCP 账户。
+
+如果你需要指定项目：
+
+gcloud config set project [PROJECT_ID]
+
+查看当前配置的项目：
+
+gcloud config list
+
+
+
+
+### **3. 上传/下载文件（Cloud Storage）**
+Google Cloud Storage 允许你将文件存储在 GCP 的存储桶（bucket）中。
+
+#### **上传文件**
+
+gsutil cp [本地文件路径] gs://[存储桶名称]/
+
+例如：
+
+gsutil cp myfile.txt gs://my-bucket/
+
+
+#### **下载文件**
+
+gsutil cp gs://[存储桶名称]/[文件名] [本地目录]
+
+例如：
+
+gsutil cp gs://my-bucket/myfile.txt .
+
+
+#### **列出存储桶中的文件**
+
+gsutil ls gs://[存储桶名称]/
+
+
+#### **删除文件**
+
+gsutil rm gs://[存储桶名称]/[文件名]
+
+
+
+
+### **4. SSH 连接（Google Compute Engine）**
+如果你有一台 GCE（Google Compute Engine）虚拟机，可以使用 `gcloud compute ssh` 连接。
+
+#### **查看可用的 VM 实例**
+
+gcloud compute instances list
+
+
+#### **SSH 连接到虚拟机**
+
+gcloud compute ssh [INSTANCE_NAME] --zone=[ZONE]
+
+例如：
+
+gcloud compute ssh my-vm --zone=us-central1-a
+
+
+#### **复制文件到远程 VM**
+
+gcloud compute scp [本地文件路径] [实例名称]:[远程路径] --zone=[ZONE]
+
+例如：
+
+gcloud compute scp myfile.txt my-vm:/home/user/ --zone=us-central1-a
+
+
+#### **从远程 VM 复制文件到本地**
+
+gcloud compute scp [实例名称]:[远程文件路径] [本地路径] --zone=[ZONE]
+
+例如：
+
+gcloud compute scp my-vm:/home/user/myfile.txt . --zone=us-central1-a
+
+
+
+
+### **5. 部署 Cloud Functions**
+如果你使用的是 Google Cloud Functions（无服务器计算），可以使用 `gcloud functions deploy` 进行部署。
+
+
+gcloud functions deploy [FUNCTION_NAME] --runtime=[RUNTIME] --trigger-http --allow-unauthenticated
+
+例如：
+
+gcloud functions deploy my-function --runtime=python39 --trigger-http --allow-unauthenticated
+
+
+
+
+### **6. 部署 Cloud Run 服务**
+
+gcloud run deploy [SERVICE_NAME] --image gcr.io/[PROJECT_ID]/[IMAGE_NAME] --platform managed --region [REGION] --allow-unauthenticated
+
+例如：
+
+gcloud run deploy my-service --image gcr.io/my-project/my-image --platform managed --region us-central1 --allow-unauthenticated
+
+
+
+### **7. 管理 Kubernetes（GKE）**
+如果你使用 Google Kubernetes Engine（GKE），你可以使用 `gcloud` 进行管理。
+
+#### **获取 GKE 集群凭据**
+
+gcloud container clusters get-credentials [CLUSTER_NAME] --zone [ZONE] --project [PROJECT_ID]
+
+
+#### **部署 Kubernetes 应用**
+
+kubectl apply -f [K8S_CONFIG_FILE].yaml
+
+
+#### **查看 Kubernetes Pod**
+
+kubectl get pods
+
+
+
