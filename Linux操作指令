@@ -1,0 +1,153 @@
+## **🔹 1. 远程连接 & 文件管理**
+### **（1）连接 GCP 实例**
+```bash
+gcloud compute ssh rainlimingrui@deeplearning-ming --zone=us-west4-a
+```
+或者：
+```bash
+ssh rainlimingrui@34.16.165.120  # 你的外部 IP
+```
+
+### **（2）查看当前目录 & 切换目录**
+```bash
+pwd            # 显示当前所在目录
+ls -lah        # 查看当前目录的所有文件（包含隐藏文件 & 详细信息）
+cd ~/rife      # 进入 RIFE 目录
+cd ..          # 返回上一级目录
+cd /           # 返回根目录
+```
+
+### **（3）创建/删除/移动文件 & 文件夹**
+```bash
+mkdir new_folder     # 创建文件夹
+rm -rf temp/         # 删除 temp 文件夹及所有内容
+mv old_name.txt new_name.txt  # 重命名文件
+mv file.txt ~/rife   # 移动文件到 ~/rife 目录
+```
+
+---
+
+## **🔹 2. 远程传输文件**
+### **（1）从本地上传到 GCP**
+```bash
+gcloud compute scp --recurse "D:\OneDrive\桌面\train_log" rainlimingrui@deeplearning-ming:~/rife --zone=us-west4-a
+```
+或者：
+```bash
+scp -r ~/local_folder rainlimingrui@deeplearning-ming:~/rife
+```
+
+### **（2）从 GCP 下载到本地**
+```bash
+gcloud compute scp rainlimingrui@deeplearning-ming:~/rife/result.mp4 D:\Downloads\ --zone=us-west4-a
+```
+或者：
+```bash
+scp rainlimingrui@deeplearning-ming:~/rife/result.mp4 ~/local_folder/
+```
+
+---
+
+## **🔹 3. RIFE 插帧运行**
+### **（1）运行单个视频插帧**
+```bash
+nohup python inference_video.py --video input.mp4 --output result.mp4 --exp 2 > log.txt 2>&1 &
+disown -h %1
+```
+- **`nohup`**：让进程保持后台运行，即使 SSH 断开也不会终止  
+- **`--exp 2`**：插帧倍数（2×，4×，8×…）  
+- **`> log.txt 2>&1 &`**：把日志写入 `log.txt`，并后台运行  
+- **`disown -h %1`**：从 Shell 解绑，让它完全独立运行  
+
+### **（2）查看插帧进度**
+```bash
+tail -f log.txt  # 实时查看日志文件内容
+```
+
+### **（3）批量处理多个视频**
+新建 `batch_rife.sh`：
+```bash
+#!/bin/bash
+for video in 2.mp4 3.mp4 4.mp4 6.mp4; do
+    echo "Processing $video..."
+    nohup python inference_video.py --video $video --output result_$video --exp 2 > log_$video.txt 2>&1 &
+    disown -h %1
+done
+```
+然后运行：
+```bash
+nohup bash batch_rife.sh > batch_log.txt 2>&1 &
+disown -h %1
+```
+
+---
+
+## **🔹 4. 进程 & 任务管理**
+### **（1）查看当前正在运行的插帧任务**
+```bash
+ps aux | grep inference_video
+```
+
+### **（2）杀死插帧任务**
+```bash
+kill -9 <PID>  # 用 ps aux 查询 PID，然后终止
+```
+
+### **（3）确保进程崩溃后自动重启**
+创建 `auto_restart.sh`：
+```bash
+#!/bin/bash
+while true; do
+    if ! pgrep -f "inference_video.py"; then
+        echo "Restarting RIFE at $(date)"
+        nohup python inference_video.py --video 3.mp4 --output result3.mp4 --exp 2 > log.txt 2>&1 &
+        disown -h %1
+    fi
+    sleep 60
+done
+```
+然后：
+```bash
+nohup bash auto_restart.sh > auto_restart.log 2>&1 &
+disown -h %1
+```
+
+---
+
+## **🔹 5. GPU & 资源管理**
+### **（1）检查 GPU 是否在工作**
+```bash
+nvidia-smi
+```
+
+### **（2）检查 CPU & 内存使用情况**
+```bash
+htop  # 需要安装：sudo apt install htop
+```
+
+### **（3）停止/删除 GCP 实例**
+```bash
+gcloud compute instances stop deeplearning-ming --zone=us-west4-a
+gcloud compute instances delete deeplearning-ming --zone=us-west4-a
+```
+
+---
+
+## **🔹 6. 退出 & 断开连接**
+### **（1）退出 SSH**
+```bash
+exit
+```
+
+### **（2）从 `tail -f log.txt` 退出**
+```bash
+Ctrl + C
+```
+
+### **（3）强制终止当前进程**
+```bash
+Ctrl + Z  # 暂停任务
+kill -9 %1  # 杀死后台任务
+```
+
+---
