@@ -1,3 +1,6 @@
+gcloud compute scp --recurse "D:\视频\录屏\3.mp4" rainlimingrui@deeplearning-ming:/home/rainlimingrui/rife --zone=us-west4-a --ssh-key-file ~/.ssh/google_compute_engine
+
+
 ## **🔹 1. 远程连接 & 文件管理**
 ### **（1）连接 GCP 实例**
 ```bash
