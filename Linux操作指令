@@ -1,4 +1,11 @@
+
+
 gcloud compute scp --recurse "D:\视频\录屏\3.mp4" rainlimingrui@deeplearning-ming:/home/rainlimingrui/rife --zone=us-west4-a --ssh-key-file ~/.ssh/google_compute_engine
+
+创建脚本 
+touch my_script.py
+编辑脚本 
+nano my_script.py
 
 
 loud compute scp --recurse "D:\视频\keynumber.zip" rainlimingrui@deeplearning-ming:/home/rainlimingrui/openpose --zone=us-west4-b --ssh-key-file ~/.ssh/google_compute_engine
