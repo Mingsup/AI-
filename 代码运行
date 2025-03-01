@@ -6,4 +6,9 @@ python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source
 yolo：人物判定
 cd yolo
 python detect_shots.py  人物击球判定
+
+创建python虚拟环境
+conda create -n alphapose python=3.10 -y
+conda activate alphapose
+
 python slowmotion.py    击球慢动作回放
