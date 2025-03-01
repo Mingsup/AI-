@@ -1,14 +1,21 @@
-boxMot：人物id跟踪
+(●'◡'●)boxMot：人物id跟踪
+
+创建虚拟环境（方法一）
+poetry env use python3
+source $(poetry env info --path)/bin/activate
+
 cd boxmot
 python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/result_6.mp4 --save
 
 
-yolo：人物判定
+(●'◡'●)yolo：人物判定
 cd yolo
 python detect_shots.py  人物击球判定
-
-创建python虚拟环境
-conda create -n alphapose python=3.10 -y
-conda activate alphapose
-
 python slowmotion.py    击球慢动作回放
+
+
+
+(●'◡'●)创建python虚拟环境（方法二）
+conda create -n alphapose python=3.10 -y
+conda activate alphapose（环境名）
+
