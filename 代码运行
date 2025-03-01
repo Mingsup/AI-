@@ -5,5 +5,5 @@ python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source
 
 yolo：人物判定
 cd yolo
-python detect_shots.py
-python slowmotion.py
+python detect_shots.py  人物击球判定
+python slowmotion.py    击球慢动作回放
