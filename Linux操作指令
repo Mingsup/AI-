@@ -1,4 +1,5 @@
-
+nohup mim install "mmcv-full==2.0.1" > mmcv_install.log 2>&1 &
+tail -f mmcv_install.log
 
 gcloud compute scp --recurse "D:\视频\录屏\3.mp4" rainlimingrui@deeplearning-ming:/home/rainlimingrui/rife --zone=us-west4-a --ssh-key-file ~/.ssh/google_compute_engine
 
