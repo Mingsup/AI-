@@ -6,6 +6,7 @@ source $(poetry env info --path)/bin/activate
 
 cd boxmot
 python tracking/track_test.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
+python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save --save-txt
 
 
 (●'◡'●)yolo：人物判定
