@@ -52,7 +52,7 @@ scp -r ~/local_folder rainlimingrui@deeplearning-ming:~/rife
 ### **（2）从 GCP 下载到本地**
 
 gcloud compute scp rainlimingrui@deeplearning-ming:/home/rainlimingrui/rife/result_2.mp4 D:\视频 --zone=us-west4-a
-gcloud compute scp rainlimingrui@deeplearning-ming:/home/rainlimingrui/yolo/shots_detected.zip D:\视频 --zone=us-west4-b
+gcloud compute scp rainlimingrui@deeplearning-ming:/home/rainlimingrui/yolo/shots_detected.zip D:\视频\下载 --zone=us-west4-b
 ```
 
 ---
