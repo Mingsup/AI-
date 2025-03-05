@@ -5,6 +5,9 @@ poetry env use python3
 source $(poetry env info --path)/bin/activate
 
 cd boxmot
+源代码运行：
+python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
+自编代码运行：
 python tracking/track_test.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
 
 
@@ -21,7 +24,7 @@ conda create -n alphapose python=3.10 -y
 conda activate alphapose（环境名）
 
 mmpose运行
-
+源代码运行：
 python demo/topdown_demo_with_mmdet.py \
     demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py \
     checkpoints/rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth \
@@ -30,3 +33,16 @@ python demo/topdown_demo_with_mmdet.py \
     --input ~/yolo/6.mp4 \
     --output-root vis_results/ \
     --device cuda:0
+
+自编代码运行：
+
+
+
+
+
+
+
+
+
+
+
