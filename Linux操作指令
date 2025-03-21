@@ -9,6 +9,9 @@ tail -f mmcv_install.log
 
 gcloud compute scp --recurse "D:\视频\录屏\3.mp4" rainlimingrui@deeplearning-ming:/home/rainlimingrui/rife --zone=us-west4-a --ssh-key-file ~/.ssh/google_compute_engine
 
+gcloud compute scp --recurse "D:\视频\代码\mmpose\demo\body3d_pose_lifter_demo_test1.py" rainlimingrui@deeplearning-ming:/home/rainlimingrui/mmpose/demo --zone=us-west4-b --ssh-key-file ~/.ssh/g
+oogle_compute_engine
+
 创建脚本 
 touch my_script.py
 编辑脚本 
@@ -49,6 +52,8 @@ mv file.txt ~/rife   # 移动文件到 ~/rife 目录
 ### **（1）从本地上传到 GCP**
 ```bash
 gcloud compute scp --recurse "D:\OneDrive\桌面\train_log" rainlimingrui@deeplearning-ming:~/rife --zone=us-west4-a
+
+
 ```
 或者：
 ```bash
