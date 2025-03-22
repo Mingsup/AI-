@@ -85,6 +85,17 @@ checkpoints/videopose_h36m_243frames_fullconv_supervised-880bea25_20210527.pth \
 --output-root vis_results_3d/ \
 --device cuda:0
 
+python demo/body3d_pose_lifter_demo_test1.py \
+configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
+checkpoints/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \
+configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
+checkpoints/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \
+configs/body_3d_keypoint/video_pose_lift/h36m/video-pose-lift_tcn-243frm-supv_8xb128-160e_h36m.py \
+checkpoints/videopose_h36m_243frames_fullconv_supervised-880bea25_20210527.pth \
+--input ~/yolo/test.mp4 \
+--bbox-json ~/boxmot/idresults.json \
+--output-root vis_results_3d/ \
+--device cuda:0
 
 
 
