@@ -19,11 +19,7 @@ python slowmotion.py    击球慢动作回放
 
 
 
-(●'◡'●)创建python虚拟环境（方法二）
-conda create -n alphapose python=3.10 -y
-conda activate alphapose（环境名）
-03/13 00:13:34 - mmengine - INFO - the output video has been saved at vis_results_3d/test.mp4
-mmpose运行
+(●'◡'●)mmpose运行
 源代码运行：
 python demo/topdown_demo_with_mmdet.py \
     demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py \
