@@ -90,7 +90,7 @@ configs/body_2d_keypoint/rtmpose/coco/rtmpose-l_8xb256-420e_aic-coco-384x288.py 
 checkpoints/rtmpose-l_simcc-aic-coco_pt-aic-coco_420e-384x288-97d6cb0f_20230228.pth \
 configs/body_3d_keypoint/motionbert/h36m/motionbert_dstformer-ft-243frm_8xb32-120e_h36m.py \
 checkpoints/motionbert_ft_h36m-d80af323_20230531.pth \
---input ~/yolo/test.mp4 \
+--input ~/rife/6new.mp4 \
 --bbox-json ~/boxmot/idresults.json \
 --output-root vis_results_3d/ \
 --device cuda:0
