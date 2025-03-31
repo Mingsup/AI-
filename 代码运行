@@ -11,6 +11,10 @@ python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source
 python tracking/track_test.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
 
 
+(●'◡'●)rife:插帧
+python inference_video.py --video input.mp4 --output result.mp4 --exp 1 
+代表2倍
+
 
 (●'◡'●)yolo：人物判定
 cd yolo
