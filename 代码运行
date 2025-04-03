@@ -110,7 +110,6 @@ https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_
 --input ~/rife/6new_120.mp4 \
 --bbox-json ~/boxmot/idresults.json \
 --output-root vis_results_3d/ \
---device cuda:0
-
+--save-predictions
 
 
