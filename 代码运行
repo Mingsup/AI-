@@ -1,3 +1,7 @@
+export CUDA_VISIBLE_DEVICES=0
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
 (●'◡'●)boxMot：人物id跟踪
 
 创建虚拟环境（方法一）
