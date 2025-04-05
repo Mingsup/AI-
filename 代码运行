@@ -116,5 +116,5 @@ configs/body_3d_keypoint/video_pose_lift/h36m/video-pose-lift_tcn-243frm-supv-cp
 https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_fullconv_supervised_cpn_ft-88f5abbb_20210527.pth \
 --input ~/rife/6new_120.mp4 \
 --bbox-json ~/boxmot/idresults2.json \
---output-root vis_results_3d/ \
+--output-root vis_results_3dnew/ \
 --save-predictions
