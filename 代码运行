@@ -79,7 +79,7 @@ checkpoints/videopose_h36m_243frames_fullconv_supervised-880bea25_20210527.pth \
 
 单一目标检测（best）
 
-python demo/body3d_pose_lifter_demo_test1.py \
+python demo/body3d_pose_lifter_demo_test.py \
 configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
 checkpoints/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth \
 configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w48_8xb32-210e_coco-256x192.py \
@@ -96,7 +96,7 @@ checkpoints/videopose_h36m_243frames_fullconv_supervised-880bea25_20210527.pth \
 -----------------------------------------------------------------------------------
 
 目标1
-python demo/body3d_pose_lifter_demo_test1.py \
+python demo/body3d_pose_lifter_demo_test.py \
 demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py \
 https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth \
 configs/body_2d_keypoint/rtmpose/coco/rtmpose-l_8xb256-420e_aic-coco-384x288.py \
@@ -109,7 +109,7 @@ https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_
 --save-predictions
 
 目标2
-python demo/body3d_pose_lifter_demo_test1.py \
+python demo/body3d_pose_lifter_demo_test.py \
 demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py \
 https://download.openmmlab.com/mmpose/v1/projects/rtmpose/rtmdet_m_8xb32-100e_coco-obj365-person-235e8209.pth \
 configs/body_2d_keypoint/rtmpose/coco/rtmpose-l_8xb256-420e_aic-coco-384x288.py \
