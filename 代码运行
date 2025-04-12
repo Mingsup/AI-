@@ -108,6 +108,7 @@ https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_
 --output-root vis_results_3d/ \
 --save-predictions
 
+
 目标2
 python demo/body3d_pose_lifter_demo_test.py \
 demo/mmdetection_cfg/rtmdet_m_640-8xb32_coco-person.py \
