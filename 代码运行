@@ -12,7 +12,7 @@ cd boxmot
 源代码运行：
 python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
 自编代码运行：
-python tracking/track_test.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
+python tracking/track_test.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 ----max-age 150 --save
 
 python tracking/track_test.py \
   --yolo-model yolov8n.pt \
