@@ -3,6 +3,8 @@ export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 
 ps aux | grep python
+.zip	压缩: zip -r file.zip folder/	  
+        解压: unzip file.zip
 
 nohup mim install "mmcv==2.1.0" > mmcv_install.log 2>&1 &
 tail -f mmcv_install.log
