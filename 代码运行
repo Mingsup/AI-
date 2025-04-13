@@ -127,7 +127,7 @@ https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_
 python frame.py --json_path .json \
        --start_frames 231 498 800 \
        --clip_length 120 \
-       --output_dir 102_results
+       --output_dir 102result2
 
 
 
