@@ -133,12 +133,12 @@ checkpoints/rtmpose-l_simcc-aic-coco_pt-aic-coco_420e-384x288-97d6cb0f_20230228.
 configs/body_3d_keypoint/video_pose_lift/h36m/video-pose-lift_tcn-243frm-supv-cpn-ft_8xb128-200e_h36m.py \
 https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_fullconv_supervised_cpn_ft-88f5abbb_20210527.pth \
 --input ~/102.mp4 \
---bbox-json ~/boxmot/track_102_2.json \
---output-root vis_results_102_1/ \
+--bbox-json ~/boxmot/102_track_filtered.json \
+--output-root vis_results_102_2/ \
 --save-predictions
 
-python frame.py --json_path .json \
-       --start_frames 231 498 800 \
+python frame.py --json_path vis_results_102_2/results_102.json \
+       --start_frames 474 661 1881 2347 2644 2947 3171 3434 3726 4034 \
        --clip_length 120 \
        --output_dir 102result2
 
