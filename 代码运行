@@ -133,6 +133,8 @@ https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_
 --output-root vis_results_3dnew/ \
 --save-predictions
 
+newjson.py修改json数据达到归一化的效果
+python newjson.py --input vis_results_102_2/results_102.json --output vis_results_102_2/102.json
 
 
 python demo/body3d_pose_lifter_demo_test.py \
