@@ -149,8 +149,8 @@ https://download.openmmlab.com/mmpose/body3d/videopose/videopose_h36m_243frames_
 --output-root vis_results_400/ \
 --save-predictions
 
-python frame.py --json_path vis_results_102_2/results_102.json \
-       --start_frames 474 661 1881 2347 2644 2947 3171 3434 3726 4034 \
+python frame.py --json_path vis_results/vis_results_102_2/results_102.json \
+       --start_frames 474 734 1881 2347 2644 2947 3171 3434 3726 4034 \
        --clip_length 120 \
        --output_dir 102result2
 
