@@ -15,7 +15,7 @@ python tracking/track.py --yolo-model yolov8n --tracking-method botsort --source
 python tracking/track_test.py --yolo-model yolov8n --tracking-method botsort --source ~/yolo/6.mp4 --save
 
 id筛查
-python id.py shiyan_track.json 1   （json文件名）（id编号）
+python checkid.py shiyan_track.json 1   （json文件名）（id编号）
 
 
 (●'◡'●)rife:插帧
